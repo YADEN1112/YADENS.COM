@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product 1 - YADENS</title>
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  />
+  <!-- Google Fonts -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+  />
+  <!-- Google Sign-In Script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --mainColor: #1a73e8;
+      --darkBlue: #1557b0;
+      --white: #ffffff;
+      --lightBlue: #e0f7fa;
+      --textDark: #2d3748;
+    }
+
+    body {
+      background-color: var(--lightBlue);
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(224, 247, 250, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo span {
+      color: var(--mainColor);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--mainColor);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--darkBlue);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: url("https://source.unsplash.com/1600x900/?product1") center/cover;
+      color: var(--textDark);
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      animation: fadeIn 1.2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Product Details */
+    .product-details {
+      max-width: 1200px;
+      margin: -40px auto 40px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      position: relative;
+      z-index: 10;
+      animation: fadeSlideUp 0.8s ease forwards;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .product-image {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .product-image img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-info {
+      flex: 1 1 300px;
+      color: var(--textDark);
+    }
+
+    .product-info h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .product-info p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--mainColor), var(--darkBlue));
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Trusted Section */
+    .trusted-section {
+      background: #fdfdfd;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .trusted-section h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--textDark);
+    }
+
+    .trusted-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .trusted-logos img {
+      max-width: 120px;
+      filter: grayscale(100%);
+      transition: filter 0.3s, transform 0.3s;
+    }
+
+    .trusted-logos img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--mainColor);
+      color: white;
+      margin-top: auto;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 20px;
+      margin: 0 10px;
+      transition: transform 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .product-details {
+        margin: 20px auto;
+        flex-direction: column;
+      }
+      .product-image, .product-info {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="logo">
+      <span>YADENS</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="shop.html">Shop</a>
+      <a href="#login">Login</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Product 1</h1>
+    <p>Introducing the ultimate gadget for your daily life</p>
+  </section>
+
+  <!-- Product Details -->
+  <section class="product-details">
+    <div class="product-image">
+      <img src="https://source.unsplash.com/600x400/?tech,gadget" alt="Product 1" />
+    </div>
+    <div class="product-info">
+      <h2>Amazing Product 1</h2>
+      <p>
+        This gadget will simplify your daily tasks and enhance your productivity.
+        Built with high-quality materials and packed with innovative features,
+        it's the perfect addition to your tech collection.
+      </p>
+      <div class="btn-group">
+        <!-- 
+          Add to Cart button: 
+          Calls addToCart() with product name, price, and a 100x100 image for the cart thumbnail.
+        -->
+        <button 
+          class="btn" 
+          onclick="addToCart('Amazing Product 1', 20.00, 'https://source.unsplash.com/100x100/?tech,gadget')"
+        >
+          Add to Cart
+        </button>
+
+        <!-- Checkout button goes directly to checkout.html -->
+        <button class="btn" onclick="location.href='checkout.html'">Checkout</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trusted Section -->
+  <section class="trusted-section">
+    <h3>Trusted & Secure</h3>
+    <div class="trusted-logos">
+      <!-- Replace with actual logos or brand images -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Trustpilot_logo.png" alt="Trustpilot" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Klarna_logo_black.svg/2560px-Klarna_logo_black.svg.png" alt="Klarna" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Visa_2021.svg" alt="Visa" />
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 YADENS. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </footer>
+
+  <!-- Script to add item to localStorage cart -->
+  <script>
+    function addToCart(name, price, image) {
+      // Retrieve existing cart or create a new one
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      // Add this product to cart
+      cart.push({ name, price, image });
+      
+      // Store updated cart
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Feedback to user
+      alert(name + ' added to cart!');
+    }
+  </script>
+  
+</body>
+</html>

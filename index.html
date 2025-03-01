@@ -1,229 +1,703 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>YADENS</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Login/Signup Form</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <style>
-        :root {
-            --mainColor: #1a73e8;
-            --darkBlue: #1557b0;
-            --white: #FFFFFF;
-            --lightBlue: #e0f7fa;
-            --textDark: #2d3748;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YADENS</title>
+  <!-- Favicon (Optional) -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-hash-goes-here"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <!-- Google Fonts -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+  />
+  <!-- Google Sign-In Script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* ===== CSS Variables ===== */
+    :root {
+      --mainColor: #1a73e8;
+      --darkBlue: #1557b0;
+      --white: #ffffff;
+      --lightBlue: #e0f7fa;
+      --textDark: #2d3748;
+      --transition-speed: 0.3s;
+    }
 
-        body {
-            background-color: var(--lightBlue);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Lato', sans-serif;
-        }
+    /* ===== Global Styles ===== */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: var(--lightBlue);
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        .form-container {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 440px;
-            margin: 20px;
-        }
+    /* ===== Navigation Bar ===== */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(224, 247, 250, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo span {
+      color: var(--mainColor);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: var(--mainColor);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color var(--transition-speed) ease;
+    }
+    .nav-links a:hover {
+      color: var(--darkBlue);
+    }
 
-        .card-3d-wrap {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
+    /* ===== Hero Section ===== */
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: url("https://source.unsplash.com/1600x900/?technology") center/cover;
+      color: var(--textDark);
+      min-height: 100vh;
+      margin-top: 70px; /* space for fixed nav */
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.3); /* subtle overlay for better text contrast */
+      z-index: 1;
+    }
+    .hero > * {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      animation: fadeIn 1.2s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        .center-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    /* ===== Scroll Down Arrow ===== */
+    .scroll-down {
+      position: absolute;
+      bottom: 20px;
+      font-size: 28px;
+      color: var(--mainColor);
+      z-index: 2;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
 
-        .heading {
-            color: var(--textDark);
-            margin-bottom: 35px;
-            font-size: 26px;
-            font-weight: 700;
-        }
+    .btn {
+      background: linear-gradient(135deg, var(--mainColor), var(--darkBlue));
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
 
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-            max-width: 320px;
-        }
+    /* ===== Featured Section ===== */
+    .features {
+      padding: 40px 20px;
+      text-align: center;
+      background-color: #fdfdfd;
+    }
+    .features h2 {
+      font-size: 28px;
+      color: var(--textDark);
+      margin-bottom: 30px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .feature-grid img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .feature-grid img:hover {
+      transform: scale(1.05);
+    }
 
-        .form-style {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: #f8fafc;
-        }
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--mainColor);
+      color: var(--white);
+      margin-top: auto;
+    }
+    .social-icons a {
+      color: var(--white);
+      font-size: 20px;
+      margin: 0 10px;
+      transition: transform 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.2);
+    }
 
-        .form-style:focus {
-            border-color: var(--mainColor);
-            background: var(--white);
-            box-shadow: 0 2px 8px rgba(26,115,232,0.1);
-        }
-
-        .btn {
-            background-color: var(--mainColor);
-            color: var(--white);
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            max-width: 320px;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .btn:hover {
-            background-color: var(--darkBlue);
-            transform: translateY(-1px);
-        }
-
-        .google-login {
-            background: var(--white);
-            color: var(--textDark);
-            border: 2px solid #e2e8f0;
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            margin: 20px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 15px;
-            max-width: 320px;
-            margin: 20px auto;
-            cursor: pointer;
-        }
-
-        .google-login:hover {
-            border-color: var(--mainColor);
-            background: #f8fafc;
-            transform: translateY(-1px);
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .switch-text {
-            margin-top: 25px;
-            color: #718096;
-            font-size: 14px;
-        }
-
-        .switch-text a {
-            color: var(--mainColor);
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .switch-text a:hover {
-            color: var(--darkBlue);
-        }
-    </style>
+    /* ===== Login Overlay ===== */
+    .login-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none; /* hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .login-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #333;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+    .form-container {
+      background: var(--white);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 440px;
+      position: relative;
+    }
+    .card-3d-wrap {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .center-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .heading {
+      color: var(--textDark);
+      margin-bottom: 35px;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .form-group {
+      margin-bottom: 25px;
+      max-width: 320px;
+      position: relative;
+    }
+    .form-style {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #f8fafc;
+    }
+    .form-style:focus {
+      border-color: var(--mainColor);
+      background: var(--white);
+      box-shadow: 0 2px 8px rgba(26,115,232,0.1);
+      outline: none;
+    }
+    .btn-login {
+      background-color: var(--mainColor);
+      color: var(--white);
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      max-width: 320px;
+      margin: 0 auto;
+      display: block;
+    }
+    .btn-login:hover {
+      background-color: var(--darkBlue);
+      transform: translateY(-1px);
+    }
+    .google-login {
+      background: var(--white);
+      color: var(--textDark);
+      border: 2px solid #e2e8f0;
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 15px;
+      max-width: 320px;
+      margin: 20px auto;
+      cursor: pointer;
+    }
+    .google-login:hover {
+      border-color: var(--mainColor);
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+    .google-icon {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+    .switch-text {
+      margin-top: 25px;
+      color: #718096;
+      font-size: 14px;
+    }
+    .switch-text a {
+      color: var(--mainColor);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    .switch-text a:hover {
+      color: var(--darkBlue);
+    }
+  </style>
 </head>
 <body>
-    <div class="form-container">
-        <div class="card-3d-wrap">
-            <div class="center-wrap">
-                <h2 class="heading">Welcome to YADENS</h2>
-                
-                <!-- Login Form -->
-                <form id="loginForm">
-                    <div class="form-group">
-                        <input type="email" class="form-style" placeholder="Email Address" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-style" placeholder="Password" required>
-                    </div>
-                    <button type="submit" class="btn">Sign In</button>
-                    <div class="google-login" id="googleLogin">
-                        <svg class="google-icon" viewBox="0 0 48 48">
-                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                        </svg>
-                        Continue with Google
-                    </div>
-                    <p class="switch-text">Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
-                </form>
-
-                <!-- Signup Form (Hidden by default) -->
-                <form id="signupForm" style="display: none;">
-                    <div class="form-group">
-                        <input type="text" class="form-style" placeholder="Full Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-style" placeholder="Email Address" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-style" placeholder="Password" required>
-                    </div>
-                    <button type="submit" class="btn">Create Account</button>
-                    <div class="google-login" id="googleSignup">
-                        <svg class="google-icon" viewBox="0 0 48 48">
-                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                        </svg>
-                        Continue with Google
-                    </div>
-                    <p class="switch-text">Already have an account? <a href="#" id="switchToLogin">Sign In</a></p>
-                </form>
-            </div>
-        </div>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="logo">
+      <span>YADENS</span>
     </div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="shop.html">Shop</a>
+      <a href="#" id="showLogin">Login</a>
+    </div>
+  </nav>
 
-    <script>
-        // Toggle between login and signup forms
-        document.getElementById('switchToSignup').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('signupForm').style.display = 'block';
-        });
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>🚀 Welcome to YADENS 🚀</h1>
+    <p>
+      Discover quality products at the best prices.
+      <span class="wave-emoji" aria-label="wave">👋</span>
+    </p>
+    <a href="shop.html" class="btn">Shop Now</a>
+    <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
 
-        document.getElementById('switchToLogin').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('signupForm').style.display = 'none';
-            document.getElementById('loginForm').style.display = 'block';
-        });
+  <!-- Featured Section -->
+  <section class="features">
+    <h2>Check Out Our Highlights 🌟</h2>
+    <div class="feature-grid">
+      <img src="https://source.unsplash.com/300x300/?tech,gadget" alt="Gadget highlight" loading="lazy" />
+      <img src="https://source.unsplash.com/300x300/?innovation" alt="Innovation highlight" loading="lazy" />
+      <img src="https://source.unsplash.com/300x300/?electronics" alt="Electronics highlight" loading="lazy" />
+    </div>
+  </section>
 
-        // Placeholder for Google login functionality
-        document.getElementById('googleLogin').addEventListener('click', () => {
-            alert('Google login functionality to be implemented.');
-        });
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay" aria-hidden="true">
+    <button class="close-btn" id="closeLogin" aria-label="Close Login Overlay">&times;</button>
+    <div class="form-container">
+      <div class="card-3d-wrap">
+        <div class="center-wrap">
+          <h2 class="heading">Welcome to YADENS</h2>
 
-        document.getElementById('googleSignup').addEventListener('click', () => {
-            alert('Google signup functionality to be implemented.');
-        });
-    </script>
-</body>
-</html>
+          <!-- Login Form -->
+          <form id="loginForm">
+            <div class="form-group">
+              <input type="email" class="form-style" placeholder="Email Address" required />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-style" placeholder="Password" required />
+            </div>
+            <button type="submit" class="btn-login">Sign In</button>
+            <div class="google-login" id="googleLogin">
+              <svg class="google-icon" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              Continue with Google
+            </div>
+            <p class="switch-text">
+              Don't have an account?
+              <a href="#" id="switchToSignup">Sign Up</a>
+            </p>
+          </form>
+
+          <!-- Signup Form -->
+          <form id="signupForm" style="display: none;">
+            <div class="form-group">
+              <input type="text" class="form-style" placeholder="Full Name" required />
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-style" placeholder="Email Address" required />
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-style" placeholder="Password" required />
+            </div>
+            <button type="submit" class="btn-login">Create Account</button>
+            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Visit Google</a>
+            <div class="google-login" id="googleSignup">
+              <svg class="google-icon" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              Continue with Google
+            </div>
+            <p class="switch-text">
+              Already have an account?
+              <a href="#" id="switchToLogin">Sign In</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Login Overlay -->
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 YADENS. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll down when arrow is clicked
+    document.getElementById('scrollDown').addEventListener('click', () => {
+      window.scrollTo({ top: document.querySelector('.features').offsetTop, behavior: 'smooth' });
+    });
+
+    // Show login overlay on clicking "Login"
+    document.getElementById('showLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      const overlay = document.getElementById('loginOverlay');
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+    });
+
+    // Close overlay on clicking "×" or outside the form container
+    const loginOverlay = document.getElementById('loginOverlay');
+    loginOverlay.addEventListener('click', (e) => {
+      if (e.target === loginOverlay) {
+        loginOverlay.classList.remove('active');
+        loginOverlay.setAttribute('aria-hidden', 'true');
+      }
+    });
+    document.getElementById('closeLogin').addEventListener('click', () => {
+      loginOverlay.classList.remove('active');
+      loginOverlay.setAttribute('aria-hidden', 'true');
+    });
+
+    // Toggle between login and signup forms
+    document.getElementById('switchToSignup').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('signupForm').style.display = 'block';
+    });
+    document.getElementById('switchToLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    });
+
+    // Placeholder for Google login functionality
+    document.getElementById('googleLogin').addEventListener('click', () => {
+      alert('Google login functionality to be implemented.');
+    });
+    document.getElementById('googleSignup').addEventListener('click', () => {
+      alert('Google signup functionality to be implemented.');
+    });
+  </script>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <!-- ... (keep existing head content) ... -->
+    <style>
+      /* ===== Updated Button Styles ===== */
+      .btn {
+        background: var(--white);
+        color: var(--mainColor);
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 2px solid var(--mainColor);
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(26, 115, 232, 0.1);
+      }
+      .btn:hover {
+        background: var(--mainColor);
+        color: var(--white);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+      }
+  
+      /* ===== Updated Hero Section ===== */
+      .hero {
+        background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+                    url('https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg?imageView2/2/w/800/q/70/format/webp');
+        background-size: cover;
+        background-position: center;
+      }
+  
+      /* ===== Updated Feature Grid ===== */
+      .feature-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+      .feature-grid img {
+        height: 250px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ... (keep existing navigation) ... -->
+  
+    <!-- Updated Hero Section -->
+    <section class="hero" id="home">
+      <h1>🚀 Welcome to YADENS 🚀</h1>
+      <p>
+        Discover quality products at the best prices.
+        <span class="wave-emoji" aria-label="wave">👋</span>
+      </p>
+      <a href="shop.html" class="btn">Shop Now</a>
+      <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
+        <i class="fas fa-chevron-down"></i>
+      </div>
+    </section>
+  
+    <!-- Updated Featured Section -->
+    <section class="features">
+      <h2>Check Out Our Highlights 🌟</h2>
+      <div class="feature-grid">
+        <img src="https://pixabay.com/photos/migration-integration-migrants-3129340/" 
+             alt="Community connection" loading="lazy" />
+        <img src="https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg?imageView2/2/w/800/q/70/format/webp" 
+             alt="Premium smartwatch" loading="lazy" />
+        <img src="https://source.unsplash.com/300x300/?innovation" 
+             alt="Innovation highlight" loading="lazy" />
+      </div>
+    </section>
+  
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <!-- ... (keep previous head content) ... -->
+      <style>
+        /* ===== Updated Hero Section ===== */
+        .hero {
+          background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+                      url('images/IMG_6765.JPG');
+          background-size: cover;
+          background-position: center;
+        }
+    
+        /* ===== Featured Image Styles ===== */
+        .feature-grid img.custom-image {
+          object-position: center; /* Focus on center of image */
+          border-radius: 12px;
+        }
+      </style>
+    </head>
+    <body>
+      <!-- ... (keep navigation) ... -->
+    
+      <!-- Hero Section -->
+      <section class="hero" id="home">
+        <h1>🚀 Welcome to YADENS 🚀</h1>
+        <p>
+          Discover quality products at the best prices.
+          <span class="wave-emoji" aria-label="wave">👋</span>
+        </p>
+        <a href="shop.html" class="btn">Shop Now</a>
+        <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
+          <i class="fas fa-chevron-down"></i>
+        </div>
+      </section>
+    
+      <!-- Featured Section -->
+      <section class="features">
+        <h2>Check Out Our Highlights 🌟</h2>
+        <div class="feature-grid">
+          <img src="images/IMG_6765.JPG" class="custom-image" alt="Yadens Product" loading="lazy">
+          <img src="https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg" 
+               alt="Smartwatch" loading="lazy">
+          <img src="https://source.unsplash.com/300x300/?electronics" 
+               alt="Electronics" loading="lazy">
+        </div>
+      </section>
+    
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <!-- Keep all meta tags and links -->
+        <style>
+          /* ===== Updated Button Styles ===== */
+          .btn {
+            background: var(--white);
+            color: var(--mainColor);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--mainColor);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.1);
+          }
+          .btn:hover {
+            background: var(--mainColor);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+          }
+      
+          /* ===== Updated Hero Section ===== */
+          .hero {
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+                        url('images/IMG_6765.JPG');
+            background-size: cover;
+            background-position: center;
+          }
+      
+          /* ===== Updated Feature Grid ===== */
+          .feature-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+          }
+          .feature-grid img {
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <!-- Navigation Bar (keep original) -->
+      
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+          <h1>🚀 Welcome to YADENS 🚀</h1>
+          <p>
+            Discover quality products at the best prices.
+            <span class="wave-emoji" aria-label="wave">👋</span>
+          </p>
+          <a href="shop.html" class="btn">Shop Now</a>
+          <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </section>
+      
+        <!-- Featured Section -->
+        <section class="features">
+          <h2>Check Out Our Highlights 🌟</h2>
+          <div class="feature-grid">
+            <img src="images/IMG_2858.PNG" alt="Collection Items" loading="lazy">
+            <img src="images/IMG_6765.JPG" alt="Featured Product" loading="lazy">
+            <img src="https://source.unsplash.com/300x300/?electronics" 
+                 alt="Electronics" loading="lazy">
+          </div>
+        </section>
+      
+        <!-- Keep rest of the original code -->
+      </body>
+      </html>
+

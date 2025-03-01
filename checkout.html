@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YADENS - Checkout</title>
+  <!-- Font Awesome for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+  />
+  <!-- Google Fonts -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+  />
+  <!-- Google Sign-In Script -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --mainColor: #1a73e8;
+      --darkBlue: #1557b0;
+      --white: #ffffff;
+      --lightBlue: #e0f7fa;
+      --textDark: #2d3748;
+    }
+
+    body {
+      background-color: var(--lightBlue);
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar */
+    .main-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(224, 247, 250, 0.8);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo span {
+      color: var(--mainColor);
+      font-size: 28px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--mainColor);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--darkBlue);
+    }
+
+    /* Checkout Hero Section */
+    .checkout-hero {
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: url("https://source.unsplash.com/1600x900/?payment,shopping") center/cover;
+      color: var(--textDark);
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .checkout-hero::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 0;
+    }
+
+    .checkout-hero h1,
+    .checkout-hero p {
+      z-index: 1;
+    }
+
+    .checkout-hero h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    .checkout-hero p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      animation: fadeIn 1.2s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Checkout Container */
+    .checkout-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1200px;
+      margin: -50px auto 40px; /* negative top margin to pull up under hero */
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      position: relative;
+      z-index: 10;
+      animation: fadeSlideUp 0.8s ease forwards;
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Order Summary */
+    .order-summary {
+      flex: 1 1 300px;
+      border-right: 2px solid #f0f0f0;
+      padding: 20px;
+      min-width: 250px;
+    }
+
+    .order-summary h2 {
+      font-size: 24px;
+      color: var(--textDark);
+      margin-bottom: 20px;
+    }
+
+    .summary-items {
+      max-height: 300px; /* scroll if too many items */
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: var(--textDark);
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .summary-item:hover {
+      background: #f0f0f0;
+    }
+
+    .summary-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .summary-empty {
+      text-align: center;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .summary-total {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 20px;
+    }
+
+    .clear-cart-btn {
+      background: #ff5252;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 15px;
+    }
+
+    .clear-cart-btn:hover {
+      background: #ff3030;
+      transform: scale(1.05);
+    }
+
+    /* Checkout Form */
+    .checkout-form {
+      flex: 1 1 300px;
+      padding: 20px;
+      min-width: 250px;
+    }
+
+    .checkout-form h2 {
+      font-size: 24px;
+      color: var(--textDark);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--textDark);
+    }
+
+    .form-group input,
+    .form-group select {
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      outline: none;
+      transition: box-shadow 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      box-shadow: 0 0 5px rgba(26, 115, 232, 0.3);
+      border-color: var(--mainColor);
+    }
+
+    .payment-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .payment-methods label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 5px 10px;
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+
+    .payment-methods label:hover {
+      background: #f7f7f7;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .payment-methods img {
+      width: 50px;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .checkout-btn {
+      background: linear-gradient(135deg, var(--mainColor), var(--darkBlue));
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      display: inline-block;
+      margin-top: 20px;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+    }
+
+    .checkout-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--mainColor);
+      color: white;
+      margin-top: auto; /* push footer to bottom */
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 20px;
+      margin: 0 10px;
+      transition: transform 0.3s;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .checkout-container {
+        flex-direction: column;
+      }
+      .order-summary {
+        border-right: none;
+        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <div class="logo">
+      <span>YADENS</span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="shop.html">Shop</a>
+      <a href="#login">Login</a>
+    </div>
+  </nav>
+
+  <!-- Checkout Hero Section -->
+  <section class="checkout-hero">
+    <h1>Checkout</h1>
+    <p>Complete your purchase securely and quickly</p>
+  </section>
+
+  <!-- Checkout Container -->
+  <div class="checkout-container">
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h2>Your Order</h2>
+      <!-- Container for cart items -->
+      <div id="cartItems" class="summary-items"></div>
+      <p id="cartEmptyMsg" class="summary-empty" style="display:none;">No items in your cart.</p>
+      <div id="cartTotal" class="summary-total"></div>
+      <button id="clearCartBtn" class="clear-cart-btn" style="display:none;">Clear Cart</button>
+    </div>
+
+    <!-- Checkout Form -->
+    <div class="checkout-form">
+      <h2>Billing & Shipping</h2>
+      <form id="checkoutForm" onsubmit="return handleCheckout(event)">
+        <div class="form-group">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="fullname" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Shipping Address</label>
+          <input type="text" id="address" name="address" required />
+        </div>
+
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+
+        <div class="form-group" style="display: flex; gap: 10px;">
+          <div style="flex: 1;">
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" required />
+          </div>
+          <div style="flex: 1;">
+            <label for="zip">Zip Code</label>
+            <input type="text" id="zip" name="zip" required />
+          </div>
+        </div>
+
+        <h2>Payment Method</h2>
+        <!-- Payment method radio buttons with logos -->
+        <div class="payment-methods" id="paymentMethods">
+          <label>
+            <input type="radio" name="paymentMethod" value="card" checked />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Credit_card_font_awesome.svg" alt="Credit/Debit Card" />
+            Credit/Debit
+          </label>
+          <label>
+            <input type="radio" name="paymentMethod" value="klarna" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Klarna_logo_black.svg/2560px-Klarna_logo_black.svg.png" alt="Klarna" />
+          </label>
+          <label>
+            <input type="radio" name="paymentMethod" value="paypal" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" />
+          </label>
+          <label>
+            <input type="radio" name="paymentMethod" value="visa" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Visa_2021.svg" alt="Visa" />
+          </label>
+          <label>
+            <input type="radio" name="paymentMethod" value="mastercard" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" />
+          </label>
+        </div>
+
+        <!-- Card details (only show if card/visa/mastercard is selected) -->
+        <div id="cardDetails">
+          <div class="form-group">
+            <label for="cardname">Cardholder Name</label>
+            <input type="text" id="cardname" name="cardname" required />
+          </div>
+
+          <div class="form-group">
+            <label for="cardnumber">Card Number</label>
+            <input type="text" id="cardnumber" name="cardnumber" required />
+          </div>
+
+          <div class="form-group" style="display: flex; gap: 10px;">
+            <div style="flex: 1;">
+              <label for="expiry">Expiry (MM/YY)</label>
+              <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required />
+            </div>
+            <div style="flex: 1;">
+              <label for="cvc">CVC</label>
+              <input type="text" id="cvc" name="cvc" required />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="checkout-btn">Complete Purchase</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 YADENS. All Rights Reserved.</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-tiktok"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Retrieve cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const cartItemsDiv = document.getElementById('cartItems');
+    const cartTotalDiv = document.getElementById('cartTotal');
+    const cartEmptyMsg = document.getElementById('cartEmptyMsg');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        // If no items, show empty message
+        cartEmptyMsg.style.display = 'block';
+        cartTotalDiv.textContent = '';
+        clearCartBtn.style.display = 'none';
+        return;
+      } else {
+        cartEmptyMsg.style.display = 'none';
+        clearCartBtn.style.display = 'inline-block';
+      }
+
+      // Build cart items
+      cart.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'summary-item';
+        itemDiv.innerHTML = `
+          <div style="display: flex; align-items: center;">
+            <img src="${item.image}" alt="${item.name}" />
+            <span>${item.name}</span>
+          </div>
+          <span>$${item.price.toFixed(2)}</span>
+        `;
+        cartItemsDiv.appendChild(itemDiv);
+        total += item.price;
+      });
+
+      cartTotalDiv.textContent = 'Total: $' + total.toFixed(2);
+    }
+
+    // Clear cart
+    clearCartBtn.addEventListener('click', () => {
+      cart = [];
+      localStorage.removeItem('cart');
+      renderCart();
+    });
+
+    // Initialize cart
+    renderCart();
+
+    // Toggle card fields based on selected payment method
+    const paymentMethods = document.getElementById('paymentMethods');
+    const cardDetails = document.getElementById('cardDetails');
+
+    paymentMethods.addEventListener('change', (e) => {
+      const selectedMethod = e.target.value;
+      if (selectedMethod === 'card' || selectedMethod === 'visa' || selectedMethod === 'mastercard') {
+        // Show card fields
+        cardDetails.style.display = 'block';
+        document.getElementById('cardname').required = true;
+        document.getElementById('cardnumber').required = true;
+        document.getElementById('expiry').required = true;
+        document.getElementById('cvc').required = true;
+      } else {
+        // Hide card fields
+        cardDetails.style.display = 'none';
+        document.getElementById('cardname').required = false;
+        document.getElementById('cardnumber').required = false;
+        document.getElementById('expiry').required = false;
+        document.getElementById('cvc').required = false;
+      }
+    });
+
+    // Handle checkout submission
+    function handleCheckout(event) {
+      event.preventDefault();
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+      // If user selects Klarna or PayPal, redirect
+      if (paymentMethod === 'klarna') {
+        window.location.href = 'https://www.klarna.com';
+        return false; // prevent normal submission
+      } else if (paymentMethod === 'paypal') {
+        window.location.href = 'https://www.paypal.com';
+        return false;
+      }
+
+      // For card, visa, or mastercard, proceed with normal flow
+      // (In a real scenario, you'd integrate a payment gateway.)
+      alert('Payment completed successfully!');
+      // Optionally clear the cart
+      cart = [];
+      localStorage.removeItem('cart');
+      renderCart();
+      // Possibly redirect to a thank-you page
+      // window.location.href = 'thankyou.html';
+      return false;
+    }
+  </script>
+</body>
+</html>

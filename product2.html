@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Product 1 - YADENS</title>
+  <title>Product 2 - YADENS</title>
   <!-- Font Awesome for icons -->
   <link
     rel="stylesheet"
@@ -16,6 +16,9 @@
   />
   <!-- Google Sign-In Script -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
   <style>
     :root {
       --mainColor: #1a73e8;
@@ -263,23 +266,23 @@
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
       <a href="shop.html">Shop</a>
-      <a href="#login">Login</a>
+      <a href="login.html">Login</a>
     </div>
   </nav>
 
   <!-- Hero Section -->
   <section class="hero">
-    <h1>Product 1</h1>
+    <h1>Product 2</h1>
     <p>Introducing the ultimate gadget for your daily life</p>
   </section>
 
   <!-- Product Details -->
   <section class="product-details">
     <div class="product-image">
-      <img src="https://source.unsplash.com/600x400/?tech,gadget" alt="Product 1" />
+      <img src="https://source.unsplash.com/600x400/?tech,gadget" alt="Product 2" />
     </div>
     <div class="product-info">
-      <h2>Amazing Product 1</h2>
+      <h2>Amazing Product 2</h2>
       <p>
         This gadget will simplify your daily tasks and enhance your productivity.
         Built with high-quality materials and packed with innovative features,
@@ -292,7 +295,7 @@
         -->
         <button 
           class="btn" 
-          onclick="addToCart('Amazing Product 1', 20.00, 'https://source.unsplash.com/100x100/?tech,gadget')"
+          onclick="addToCart('Amazing Product 2', 20.00, 'https://source.unsplash.com/100x100/?tech,gadget')"
         >
           Add to Cart
         </button>
@@ -340,5 +343,7 @@
       alert(name + ' added to cart!');
     }
   </script>
+
+  <script src="login.js"></script>
 </body>
 </html>

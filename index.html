@@ -3,701 +3,406 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YADENS</title>
+  <title>YADENS - Home</title>
   <!-- Favicon (Optional) -->
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <!-- Font Awesome for icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-hash-goes-here"
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
   <!-- Google Fonts -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-  />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" />
   <!-- Google Sign-In Script -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Login CSS -->
+  <link rel="stylesheet" href="login.css">
   <style>
-    /* ===== CSS Variables ===== */
     :root {
       --mainColor: #1a73e8;
       --darkBlue: #1557b0;
       --white: #ffffff;
-      --lightBlue: #e0f7fa;
+      --lightBlue: #f4f8fd;
       --textDark: #2d3748;
-      --transition-speed: 0.3s;
+      --gray: #718096;
+      --transition: all 0.3s ease;
     }
 
-    /* ===== Global Styles ===== */
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
+
     body {
       background-color: var(--lightBlue);
-      margin: 0;
       font-family: "Poppins", sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+      color: var(--textDark);
+      line-height: 1.6;
     }
 
-    /* ===== Navigation Bar ===== */
+    /* Navigation */
     .main-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(224, 247, 250, 0.8);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
       z-index: 1000;
-      padding: 15px 20px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .logo span {
       color: var(--mainColor);
-      font-size: 28px;
+      font-size: 1.8rem;
       font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: -0.5px;
     }
+
     .nav-links {
       display: flex;
-      gap: 20px;
+      gap: 2.5rem;
     }
+
     .nav-links a {
-      color: var(--mainColor);
+      color: var(--textDark);
       text-decoration: none;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      transition: color var(--transition-speed) ease;
-    }
-    .nav-links a:hover {
-      color: var(--darkBlue);
+      font-weight: 500;
+      font-size: 1rem;
+      transition: var(--transition);
+      position: relative;
     }
 
-    /* ===== Hero Section ===== */
-    .hero {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 120px 20px 80px;
-      background: url("https://source.unsplash.com/1600x900/?technology") center/cover;
-      color: var(--textDark);
-      min-height: 100vh;
-      margin-top: 70px; /* space for fixed nav */
-    }
-    .hero::after {
-      content: "";
+    .nav-links a::after {
+      content: '';
       position: absolute;
-      top: 0;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
       left: 0;
+      background-color: var(--mainColor);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
       width: 100%;
-      height: 100%;
-      background: rgba(255,255,255,0.3); /* subtle overlay for better text contrast */
-      z-index: 1;
     }
-    .hero > * {
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 5% 5rem;
+      background: linear-gradient(135deg, #f6f9fe 0%, #ffffff 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
       position: relative;
-      z-index: 2;
-    }
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-      animation: fadeIn 1s ease-in-out forwards;
-    }
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-      animation: fadeIn 1.2s ease-in-out forwards;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      overflow: hidden;
     }
 
-    /* ===== Scroll Down Arrow ===== */
-    .scroll-down {
-      position: absolute;
-      bottom: 20px;
-      font-size: 28px;
-      color: var(--mainColor);
-      z-index: 2;
-      animation: bounce 2s infinite;
-      cursor: pointer;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .btn {
-      background: linear-gradient(135deg, var(--mainColor), var(--darkBlue));
-      color: var(--white);
-      padding: 14px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* ===== Featured Section ===== */
-    .features {
-      padding: 40px 20px;
-      text-align: center;
-      background-color: #fdfdfd;
-    }
-    .features h2 {
-      font-size: 28px;
-      color: var(--textDark);
-      margin-bottom: 30px;
-    }
-    .feature-grid {
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      padding-right: 2rem;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      color: var(--textDark);
+      font-weight: 700;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: var(--gray);
+      margin-bottom: 2rem;
+    }
+
+    .hero-image {
+      position: relative;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+    }
+
+    .hero-image img:hover {
+      transform: translateY(-10px);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--mainColor);
+      color: var(--white);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(26, 115, 232, 0.2);
+    }
+
+    .btn:hover {
+      background: var(--darkBlue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 115, 232, 0.3);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 5%;
+      background: var(--white);
+    }
+
+    .features-container {
       max-width: 1200px;
       margin: 0 auto;
     }
-    .feature-grid img {
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-    .feature-grid img:hover {
-      transform: scale(1.05);
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
     }
 
-    /* ===== Footer ===== */
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: var(--mainColor);
-      color: var(--white);
-      margin-top: auto;
+    .section-title h2 {
+      font-size: 2.5rem;
+      color: var(--textDark);
+      margin-bottom: 1rem;
     }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--lightBlue);
+      padding: 2rem;
+      border-radius: 20px;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--textDark);
+      color: var(--white);
+      padding: 3rem 5%;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .social-icons {
+      margin-top: 1.5rem;
+    }
+
     .social-icons a {
       color: var(--white);
-      font-size: 20px;
-      margin: 0 10px;
-      transition: transform 0.3s;
-    }
-    .social-icons a:hover {
-      transform: scale(1.2);
+      font-size: 1.5rem;
+      margin: 0 1rem;
+      transition: var(--transition);
     }
 
-    /* ===== Login Overlay ===== */
-    .login-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none; /* hidden by default */
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .login-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      font-size: 24px;
-      color: #333;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .close-btn:hover {
-      transform: rotate(90deg);
-    }
-    .form-container {
-      background: var(--white);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-      width: 90%;
-      max-width: 440px;
-      position: relative;
-    }
-    .card-3d-wrap {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-    .center-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .heading {
-      color: var(--textDark);
-      margin-bottom: 35px;
-      font-size: 26px;
-      font-weight: 700;
-    }
-    .form-group {
-      margin-bottom: 25px;
-      max-width: 320px;
-      position: relative;
-    }
-    .form-style {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      background: #f8fafc;
-    }
-    .form-style:focus {
-      border-color: var(--mainColor);
-      background: var(--white);
-      box-shadow: 0 2px 8px rgba(26,115,232,0.1);
-      outline: none;
-    }
-    .btn-login {
-      background-color: var(--mainColor);
-      color: var(--white);
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      font-size: 15px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      max-width: 320px;
-      margin: 0 auto;
-      display: block;
-    }
-    .btn-login:hover {
-      background-color: var(--darkBlue);
-      transform: translateY(-1px);
-    }
-    .google-login {
-      background: var(--white);
-      color: var(--textDark);
-      border: 2px solid #e2e8f0;
-      width: 100%;
-      padding: 14px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      transition: all 0.3s ease;
-      font-weight: 600;
-      font-size: 15px;
-      max-width: 320px;
-      margin: 20px auto;
-      cursor: pointer;
-    }
-    .google-login:hover {
-      border-color: var(--mainColor);
-      background: #f8fafc;
-      transform: translateY(-1px);
-    }
-    .google-icon {
-      width: 20px;
-      height: 20px;
-      transition: transform 0.3s ease;
-    }
-    .switch-text {
-      margin-top: 25px;
-      color: #718096;
-      font-size: 14px;
-    }
-    .switch-text a {
+    .social-icons a:hover {
       color: var(--mainColor);
-      font-weight: 600;
-      transition: color 0.3s ease;
+      transform: translateY(-3px);
     }
-    .switch-text a:hover {
-      color: var(--darkBlue);
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .hero-text {
+        padding-right: 0;
+      }
+
+      .hero-text h1 {
+        font-size: 2.5rem;
+      }
+
+      .nav-links {
+        gap: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="main-nav">
-    <div class="logo">
-      <span>YADENS</span>
+  <header class="main-nav">
+    <div class="nav-container">
+      <div class="logo">
+        <span>YADENS</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="shop.html">Shop</a>
+        <a href="login.html">Login</a>
+      </nav>
     </div>
-    <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="shop.html">Shop</a>
-      <a href="#" id="showLogin">Login</a>
-    </div>
-  </nav>
+  </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="home">
-    <h1>🚀 Welcome to YADENS 🚀</h1>
-    <p>
-      Discover quality products at the best prices.
-      <span class="wave-emoji" aria-label="wave">👋</span>
-    </p>
-    <a href="shop.html" class="btn">Shop Now</a>
-    <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
-      <i class="fas fa-chevron-down"></i>
-    </div>
-  </section>
-
-  <!-- Featured Section -->
-  <section class="features">
-    <h2>Check Out Our Highlights 🌟</h2>
-    <div class="feature-grid">
-      <img src="https://source.unsplash.com/300x300/?tech,gadget" alt="Gadget highlight" loading="lazy" />
-      <img src="https://source.unsplash.com/300x300/?innovation" alt="Innovation highlight" loading="lazy" />
-      <img src="https://source.unsplash.com/300x300/?electronics" alt="Electronics highlight" loading="lazy" />
-    </div>
-  </section>
-
-  <!-- Login Overlay -->
-  <div class="login-overlay" id="loginOverlay" aria-hidden="true">
-    <button class="close-btn" id="closeLogin" aria-label="Close Login Overlay">&times;</button>
-    <div class="form-container">
-      <div class="card-3d-wrap">
-        <div class="center-wrap">
-          <h2 class="heading">Welcome to YADENS</h2>
-
-          <!-- Login Form -->
-          <form id="loginForm">
-            <div class="form-group">
-              <input type="email" class="form-style" placeholder="Email Address" required />
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-style" placeholder="Password" required />
-            </div>
-            <button type="submit" class="btn-login">Sign In</button>
-            <div class="google-login" id="googleLogin">
-              <svg class="google-icon" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              </svg>
-              Continue with Google
-            </div>
-            <p class="switch-text">
-              Don't have an account?
-              <a href="#" id="switchToSignup">Sign Up</a>
-            </p>
-          </form>
-
-          <!-- Signup Form -->
-          <form id="signupForm" style="display: none;">
-            <div class="form-group">
-              <input type="text" class="form-style" placeholder="Full Name" required />
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-style" placeholder="Email Address" required />
-            </div>
-            <div class="form-group">
-              <input type="password" class="form-style" placeholder="Password" required />
-            </div>
-            <button type="submit" class="btn-login">Create Account</button>
-            <a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Visit Google</a>
-            <div class="google-login" id="googleSignup">
-              <svg class="google-icon" viewBox="0 0 48 48">
-                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              </svg>
-              Continue with Google
-            </div>
-            <p class="switch-text">
-              Already have an account?
-              <a href="#" id="switchToLogin">Sign In</a>
-            </p>
-          </form>
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1>Discover Amazing Summer Gadgets</h1>
+          <p>Explore our collection of innovative products designed to make your summer unforgettable.</p>
+          <a href="shop.html" class="btn">
+            Shop Now
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="hero-image">
+          <img src="images/IMG_6765.JPG" alt="Featured Product">
         </div>
       </div>
-    </div>
-  </div>
-  <!-- END Login Overlay -->
+    </section>
 
-  <!-- Footer -->
+    <section class="features">
+      <div class="features-container">
+        <div class="section-title">
+          <h2>Featured Products</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <img src="images/IMG_2858.PNG" alt="Collection Items">
+            <h3>Summer Collection</h3>
+            <p>Discover our latest summer gadgets collection.</p>
+            <a href="shop.html" class="btn">Learn More</a>
+          </div>
+          <div class="feature-card">
+            <img src="images/IMG_6765.JPG" alt="Featured Product">
+            <h3>Best Sellers</h3>
+            <p>Check out our most popular items.</p>
+            <a href="shop.html" class="btn">View Products</a>
+          </div>
+          <div class="feature-card">
+            <img src="https://source.unsplash.com/300x300/?electronics" alt="Electronics">
+            <h3>New Arrivals</h3>
+            <p>Be the first to try our newest gadgets.</p>
+            <a href="shop.html" class="btn">Shop Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
   <footer>
-    <p>&copy; 2025 YADENS. All Rights Reserved.</p>
-    <div class="social-icons">
-      <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+    <div class="footer-content">
+      <p>&copy; 2025 YADENS. All Rights Reserved.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+      </div>
     </div>
   </footer>
 
-  <script>
-    // Smooth scroll down when arrow is clicked
-    document.getElementById('scrollDown').addEventListener('click', () => {
-      window.scrollTo({ top: document.querySelector('.features').offsetTop, behavior: 'smooth' });
-    });
-
-    // Show login overlay on clicking "Login"
-    document.getElementById('showLogin').addEventListener('click', (e) => {
-      e.preventDefault();
-      const overlay = document.getElementById('loginOverlay');
-      overlay.classList.add('active');
-      overlay.setAttribute('aria-hidden', 'false');
-    });
-
-    // Close overlay on clicking "×" or outside the form container
-    const loginOverlay = document.getElementById('loginOverlay');
-    loginOverlay.addEventListener('click', (e) => {
-      if (e.target === loginOverlay) {
-        loginOverlay.classList.remove('active');
-        loginOverlay.setAttribute('aria-hidden', 'true');
-      }
-    });
-    document.getElementById('closeLogin').addEventListener('click', () => {
-      loginOverlay.classList.remove('active');
-      loginOverlay.setAttribute('aria-hidden', 'true');
-    });
-
-    // Toggle between login and signup forms
-    document.getElementById('switchToSignup').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('signupForm').style.display = 'block';
-    });
-    document.getElementById('switchToLogin').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('signupForm').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-    });
-
-    // Placeholder for Google login functionality
-    document.getElementById('googleLogin').addEventListener('click', () => {
-      alert('Google login functionality to be implemented.');
-    });
-    document.getElementById('googleSignup').addEventListener('click', () => {
-      alert('Google signup functionality to be implemented.');
-    });
-  </script>
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <!-- ... (keep existing head content) ... -->
-    <style>
-      /* ===== Updated Button Styles ===== */
-      .btn {
-        background: var(--white);
-        color: var(--mainColor);
-        padding: 12px 30px;
-        border-radius: 25px;
-        font-weight: 600;
-        text-decoration: none;
-        border: 2px solid var(--mainColor);
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(26, 115, 232, 0.1);
-      }
-      .btn:hover {
-        background: var(--mainColor);
-        color: var(--white);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
-      }
-  
-      /* ===== Updated Hero Section ===== */
-      .hero {
-        background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-                    url('https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg?imageView2/2/w/800/q/70/format/webp');
-        background-size: cover;
-        background-position: center;
-      }
-  
-      /* ===== Updated Feature Grid ===== */
-      .feature-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-      }
-      .feature-grid img {
-        height: 250px;
-        object-fit: cover;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- ... (keep existing navigation) ... -->
-  
-    <!-- Updated Hero Section -->
-    <section class="hero" id="home">
-      <h1>🚀 Welcome to YADENS 🚀</h1>
-      <p>
-        Discover quality products at the best prices.
-        <span class="wave-emoji" aria-label="wave">👋</span>
-      </p>
-      <a href="shop.html" class="btn">Shop Now</a>
-      <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </section>
-  
-    <!-- Updated Featured Section -->
-    <section class="features">
-      <h2>Check Out Our Highlights 🌟</h2>
-      <div class="feature-grid">
-        <img src="https://pixabay.com/photos/migration-integration-migrants-3129340/" 
-             alt="Community connection" loading="lazy" />
-        <img src="https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg?imageView2/2/w/800/q/70/format/webp" 
-             alt="Premium smartwatch" loading="lazy" />
-        <img src="https://source.unsplash.com/300x300/?innovation" 
-             alt="Innovation highlight" loading="lazy" />
-      </div>
-    </section>
-  
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <!-- ... (keep previous head content) ... -->
-      <style>
-        /* ===== Updated Hero Section ===== */
-        .hero {
-          background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-                      url('images/IMG_6765.JPG');
-          background-size: cover;
-          background-position: center;
-        }
-    
-        /* ===== Featured Image Styles ===== */
-        .feature-grid img.custom-image {
-          object-position: center; /* Focus on center of image */
-          border-radius: 12px;
-        }
-      </style>
-    </head>
-    <body>
-      <!-- ... (keep navigation) ... -->
-    
-      <!-- Hero Section -->
-      <section class="hero" id="home">
-        <h1>🚀 Welcome to YADENS 🚀</h1>
-        <p>
-          Discover quality products at the best prices.
-          <span class="wave-emoji" aria-label="wave">👋</span>
+  <!-- Login Overlay -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="form-container">
+      <button class="close-btn" id="closeLogin">&times;</button>
+      
+      <!-- Login Form -->
+      <form id="loginForm" class="active">
+        <h2>Login</h2>
+        <div class="form-style">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-style">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+        <button type="button" class="google-login">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20">
+          Login with Google
+        </button>
+        <p class="switch-text">
+          Don't have an account? <a id="showSignup">Sign up</a>
         </p>
-        <a href="shop.html" class="btn">Shop Now</a>
-        <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
-          <i class="fas fa-chevron-down"></i>
-        </div>
-      </section>
-    
-      <!-- Featured Section -->
-      <section class="features">
-        <h2>Check Out Our Highlights 🌟</h2>
-        <div class="feature-grid">
-          <img src="images/IMG_6765.JPG" class="custom-image" alt="Yadens Product" loading="lazy">
-          <img src="https://img.kwcdn.com/product/open/2024-04-25/1714062664580-2a7373805a384c5eb8860c733d712da0-goods.jpeg" 
-               alt="Smartwatch" loading="lazy">
-          <img src="https://source.unsplash.com/300x300/?electronics" 
-               alt="Electronics" loading="lazy">
-        </div>
-      </section>
-    
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <!-- Keep all meta tags and links -->
-        <style>
-          /* ===== Updated Button Styles ===== */
-          .btn {
-            background: var(--white);
-            color: var(--mainColor);
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            text-decoration: none;
-            border: 2px solid var(--mainColor);
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.1);
-          }
-          .btn:hover {
-            background: var(--mainColor);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
-          }
-      
-          /* ===== Updated Hero Section ===== */
-          .hero {
-            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
-                        url('images/IMG_6765.JPG');
-            background-size: cover;
-            background-position: center;
-          }
-      
-          /* ===== Updated Feature Grid ===== */
-          .feature-grid {
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-          }
-          .feature-grid img {
-            height: 250px;
-            object-fit: cover;
-            border-radius: 12px;
-          }
-        </style>
-      </head>
-      <body>
-        <!-- Navigation Bar (keep original) -->
-      
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-          <h1>🚀 Welcome to YADENS 🚀</h1>
-          <p>
-            Discover quality products at the best prices.
-            <span class="wave-emoji" aria-label="wave">👋</span>
-          </p>
-          <a href="shop.html" class="btn">Shop Now</a>
-          <div class="scroll-down" id="scrollDown" aria-label="Scroll Down">
-            <i class="fas fa-chevron-down"></i>
-          </div>
-        </section>
-      
-        <!-- Featured Section -->
-        <section class="features">
-          <h2>Check Out Our Highlights 🌟</h2>
-          <div class="feature-grid">
-            <img src="images/IMG_2858.PNG" alt="Collection Items" loading="lazy">
-            <img src="images/IMG_6765.JPG" alt="Featured Product" loading="lazy">
-            <img src="https://source.unsplash.com/300x300/?electronics" 
-                 alt="Electronics" loading="lazy">
-          </div>
-        </section>
-      
-        <!-- Keep rest of the original code -->
-      </body>
-      </html>
+      </form>
 
+      <!-- Signup Form -->
+      <form id="signupForm">
+        <h2>Sign Up</h2>
+        <div class="form-style">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" required>
+        </div>
+        <div class="form-style">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" required>
+        </div>
+        <div class="form-style">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" required>
+        </div>
+        <button type="submit" class="btn-login">Sign Up</button>
+        <button type="button" class="google-login">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20">
+          Sign up with Google
+        </button>
+        <p class="switch-text">
+          Already have an account? <a id="showLogin">Login</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

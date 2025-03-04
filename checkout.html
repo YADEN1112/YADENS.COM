@@ -16,6 +16,8 @@
   />
   <!-- Google Sign-In Script -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
   <style>
     :root {
       --mainColor: #1a73e8;
@@ -356,7 +358,7 @@
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
       <a href="shop.html">Shop</a>
-      <a href="#login">Login</a>
+      <a href="login.html">Login</a>
     </div>
   </nav>
 
@@ -476,6 +478,7 @@
     </div>
   </footer>
 
+  <script src="login.js"></script>
   <script>
     // Retrieve cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
